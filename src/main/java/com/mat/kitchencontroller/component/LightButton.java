@@ -5,10 +5,9 @@ import com.pi4j.io.gpio.digital.*;
 
 public abstract class LightButton implements DigitalStateChangeListener {
 
-    private final String PROVIDER_ID = "pigpio-digital-input";
-    protected final LedStrip ledStrip;
+    private final LedStrip ledStrip;
 
-    public LightButton(Context pi4j, LedStrip ledStrip) {
+    protected LightButton(Context pi4j, LedStrip ledStrip) {
         this.ledStrip = ledStrip;
         var config = DigitalInput.newConfigBuilder(pi4j)
                 .id("BCM" + getPin())
@@ -18,22 +17,28 @@ public abstract class LightButton implements DigitalStateChangeListener {
                 .debounce(DigitalInput.DEFAULT_DEBOUNCE)
                 .build();
 
-        DigitalInputProvider digitalInputProvider = pi4j.provider(PROVIDER_ID);
+        DigitalInputProvider digitalInputProvider = pi4j.provider("pigpio-digital-input");
         var input = digitalInputProvider.create(config);
         input.addListener(this);
     }
 
     @Override
     public void onDigitalStateChange(DigitalStateChangeEvent event) {
-        if (ledStrip.getBrightness() != getRequestedBrightness()) {
-            ledStrip.turnOn(getRequestedBrightness());
-        } else {
-            ledStrip.turnOff();
+        if (event.state().isHigh()) {
+            if (brightnessIsAlreadySet()) {
+                ledStrip.turnOff();
+            } else {
+                ledStrip.turnOn(getRequestedBrightness());
+            }
         }
     }
 
-    abstract protected int getRequestedBrightness();
-    abstract protected String getName();
-    abstract protected int getPin();
+    boolean brightnessIsAlreadySet() {
+       return ledStrip.getBrightness() == getRequestedBrightness();
+    }
+
+    protected abstract int getRequestedBrightness();
+    protected abstract String getName();
+    protected abstract int getPin();
 }
 
