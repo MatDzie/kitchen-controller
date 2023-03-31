@@ -1,3 +1,3 @@
 # kitchen-controller
 
-RaspberryPi kitchen appliance controller
+RaspberryPi kitchen smart home controller
