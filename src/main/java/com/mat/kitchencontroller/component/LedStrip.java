@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class LedStrip {
-    private final int FREQUENCY = 15000;
-    private final int PIN = 18;
+    private static final int FREQUENCY = 15000;
+    private static final int PIN = 18;
     private final Pwm pwm;
 
     public LedStrip(Context pi4j) {
@@ -22,15 +22,15 @@ public class LedStrip {
                 .build());
     }
 
-    public void turnOn(Number brightness) {
+    public synchronized void turnOn(Number brightness) {
         pwm.on(brightness, FREQUENCY);
     }
 
-    public void turnOff() {
+    public synchronized void turnOff() {
         pwm.off();
     }
 
-    public float getBrightness() {
+    public synchronized float getBrightness() {
         return pwm.isOn() ? pwm.getDutyCycle() : 0;
     }
 }
