@@ -4,6 +4,7 @@ import com.pi4j.context.Context;
 import com.pi4j.io.gpio.digital.*;
 
 public abstract class LightButton implements DigitalStateChangeListener {
+    // TODO: Move button configuration to SQL DB
     private static final long DEBOUNCE = 5000L;
     private final LedStrip ledStrip;
 
@@ -23,7 +24,7 @@ public abstract class LightButton implements DigitalStateChangeListener {
     }
 
     @Override
-    public synchronized void onDigitalStateChange(DigitalStateChangeEvent event) {
+    public void onDigitalStateChange(DigitalStateChangeEvent event) {
         if (event.state().isHigh()) {
             if (brightnessIsAlreadySet()) {
                 ledStrip.turnOff();

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class LedStrip {
+    // TODO: Move LedStrip configuration to SQL DB
     private static final int BRIGHTNESS_CHANGE_DELAY_MS = 7;
     private static final int FREQUENCY = 10000;
     private static final int PIN = 18;

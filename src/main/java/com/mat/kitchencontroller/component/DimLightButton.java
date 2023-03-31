@@ -10,9 +10,10 @@ public class DimLightButton extends LightButton {
         super(pi4j, ledStrip);
     }
 
+    // TODO: Move button configuration to SQL DB
     @Override
     protected int getRequestedBrightness() {
-        return 30;
+        return 25;
     }
 
     @Override

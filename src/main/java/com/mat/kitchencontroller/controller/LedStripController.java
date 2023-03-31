@@ -14,13 +14,15 @@ public class LedStripController {
         this.ledStrip = ledStrip;
     }
 
-    @GetMapping("/on/{brightness}")
+    // TODO: Add validation 0-100
+    // TODO: Change API to be compatible with Google Home
+    @GetMapping("/led/on/{brightness}")
     public String on(@PathVariable("brightness") Integer brightness) {
         ledStrip.turnOn(brightness);
         return "Turning LED strip ON with brightness of: " + brightness;
     }
 
-    @GetMapping("/off")
+    @GetMapping("/led/off")
     public String off() {
         ledStrip.turnOff();
         return "Turning LED strip OFF!";
