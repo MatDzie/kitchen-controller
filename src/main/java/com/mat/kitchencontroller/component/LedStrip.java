@@ -7,7 +7,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class LedStrip {
-    private static final int FREQUENCY = 15000;
+    private static final int BRIGHTNESS_CHANGE_DELAY_MS = 7;
+    private static final int FREQUENCY = 10000;
     private static final int PIN = 18;
     private final Pwm pwm;
 
@@ -22,15 +23,34 @@ public class LedStrip {
                 .build());
     }
 
-    public synchronized void turnOn(Number brightness) {
-        pwm.on(brightness, FREQUENCY);
+    public synchronized void turnOn(int brightnessToSet) {
+        smoothlyChangeBrightness(brightnessToSet);
+    }
+
+    private void smoothlyChangeBrightness(int to) {
+        var from = getBrightness();
+        while (from != to) {
+            if (from > to)
+                from--;
+            else
+                from++;
+
+            pwm.on(from, FREQUENCY);
+
+            try {
+                Thread.sleep(BRIGHTNESS_CHANGE_DELAY_MS);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
     }
 
     public synchronized void turnOff() {
+        smoothlyChangeBrightness(1);
         pwm.off();
     }
 
-    public synchronized float getBrightness() {
-        return pwm.isOn() ? pwm.getDutyCycle() : 0;
+    public int getBrightness() {
+        return pwm.isOn() ? Math.round(pwm.getDutyCycle()) : 0;
     }
 }

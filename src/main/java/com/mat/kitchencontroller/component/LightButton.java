@@ -4,7 +4,7 @@ import com.pi4j.context.Context;
 import com.pi4j.io.gpio.digital.*;
 
 public abstract class LightButton implements DigitalStateChangeListener {
-
+    private static final long DEBOUNCE = 5000L;
     private final LedStrip ledStrip;
 
     protected LightButton(Context pi4j, LedStrip ledStrip) {
@@ -14,7 +14,7 @@ public abstract class LightButton implements DigitalStateChangeListener {
                 .name(getName())
                 .address(getPin())
                 .pull(PullResistance.PULL_DOWN)
-                .debounce(DigitalInput.DEFAULT_DEBOUNCE)
+                .debounce(DEBOUNCE)
                 .build();
 
         DigitalInputProvider digitalInputProvider = pi4j.provider("pigpio-digital-input");
@@ -23,7 +23,7 @@ public abstract class LightButton implements DigitalStateChangeListener {
     }
 
     @Override
-    public void onDigitalStateChange(DigitalStateChangeEvent event) {
+    public synchronized void onDigitalStateChange(DigitalStateChangeEvent event) {
         if (event.state().isHigh()) {
             if (brightnessIsAlreadySet()) {
                 ledStrip.turnOff();

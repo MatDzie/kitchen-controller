@@ -22,7 +22,7 @@ public class DimLightButton extends LightButton {
 
     @Override
     protected int getPin() {
-        return 27;
+        return 17;
     }
 }
 

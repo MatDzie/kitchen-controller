@@ -22,7 +22,7 @@ public class BrightLightButton extends LightButton {
 
     @Override
     protected int getPin() {
-        return 17;
+        return 27;
     }
 }
 
