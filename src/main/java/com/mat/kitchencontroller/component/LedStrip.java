@@ -32,9 +32,9 @@ public class LedStrip {
         var from = getBrightness();
         while (from != to) {
             if (from > to)
-                from--;
+                --from;
             else
-                from++;
+                ++from;
 
             pwm.on(from, FREQUENCY);
 
@@ -47,8 +47,7 @@ public class LedStrip {
     }
 
     public synchronized void turnOff() {
-        smoothlyChangeBrightness(1);
-        pwm.off();
+        smoothlyChangeBrightness(0);
     }
 
     public int getBrightness() {
