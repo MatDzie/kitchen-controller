@@ -1,0 +1,26 @@
+#!/bin/bash
+### BEGIN INIT INFO
+# Provides:          kitchen-controller
+# Required-Start:
+# Required-Stop:
+# Default-Start:     2 3 4 5
+# Default-Stop:
+# Short-Description: kitchen smart home controller
+### END INIT INFO
+
+# File location on target: /etc/init.d
+# Add to autostart: sudo update-rc.d /etc/init.d/kitchen-controller defaults
+
+case $1 in
+    start)
+        /bin/bash /usr/local/bin/start-kitchen-controller.sh
+    ;;
+    stop)
+        /bin/bash /usr/local/bin/stop-kitchen-controller.sh
+    ;;
+    restart)
+        /bin/bash /usr/local/bin/start-kitchen-controller.sh
+        /bin/bash /usr/local/bin/stop-kitchen-controller.sh
+    ;;
+esac
+exit 0
