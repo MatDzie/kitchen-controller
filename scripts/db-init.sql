@@ -5,8 +5,11 @@ FLUSH PRIVILEGES;
 USE kitchen;
 
 create TABLE setting(
-  setting_name varchar(255) not null UNIQUE,
-  setting_value varchar(255) not null);
+  setting_id int auto_increment,
+  setting_name varchar(255) not null,
+  setting_value varchar(255) not null,
+  PRIMARY KEY (setting_id)
+  );
 
 INSERT INTO
     setting(setting_name, setting_value)

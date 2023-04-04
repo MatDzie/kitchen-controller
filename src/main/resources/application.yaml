@@ -1,0 +1,5 @@
+  spring:
+    datasource:
+      url: jdbc:mariadb://localhost:3306/kitchen
+      username: kitchen-controller
+      password: #pass from env variable

@@ -1,5 +1,7 @@
 package com.mat.kitchencontroller.component;
 
+import com.mat.kitchencontroller.configuration.SettingNames;
+import com.mat.kitchencontroller.repositories.SettingRepository;
 import com.pi4j.context.Context;
 import com.pi4j.io.pwm.Pwm;
 import com.pi4j.io.pwm.PwmType;
@@ -7,17 +9,16 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class LedStrip {
-    // TODO: Move LedStrip configuration to SQL DB
-    private static final int BRIGHTNESS_CHANGE_DELAY_MS = 7;
-    private static final int FREQUENCY = 10000;
-    private static final int PIN = 18;
     private final Pwm pwm;
+    private final SettingRepository settingRepository;
 
-    public LedStrip(Context pi4j) {
+    public LedStrip(Context pi4j, SettingRepository settingRepository) {
+        this.settingRepository = settingRepository;
+
         this.pwm = pi4j.create(Pwm.newConfigBuilder(pi4j)
-                .id("PIN" + PIN)
-                .name("LedStrip")
-                .address(PIN)
+                .id("PIN" + getPin())
+                .name(SettingNames.LED_STRIP)
+                .address(getPin())
                 .pwmType(PwmType.HARDWARE)
                 .initial(0)
                 .shutdown(0)
@@ -40,10 +41,10 @@ public class LedStrip {
             else
                 ++from;
 
-            pwm.on(from, FREQUENCY);
+            pwm.on(from, getFrequency());
 
             try {
-                Thread.sleep(BRIGHTNESS_CHANGE_DELAY_MS);
+                Thread.sleep(getDelay());
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
@@ -52,5 +53,21 @@ public class LedStrip {
 
     public int getBrightness() {
         return pwm.isOn() ? Math.round(pwm.getDutyCycle()) : 0;
+    }
+
+    private int getPin() {
+        return getSettingValue(SettingNames.PIN_POSTFIX);
+    }
+
+    private int getFrequency() {
+        return getSettingValue(SettingNames.FREQUENCY_POSTFIX);
+    }
+
+    private int getDelay() {
+        return getSettingValue(SettingNames.BRIGHTNESS_CHANGE_DELAY_MS);
+    }
+
+    private int getSettingValue(String postfix) {
+        return Integer.parseInt(settingRepository.findValueForName(SettingNames.LED_STRIP + postfix));
     }
 }
