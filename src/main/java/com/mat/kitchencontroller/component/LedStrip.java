@@ -13,16 +13,17 @@ public class LedStrip {
     private final SettingRepository settingRepository;
 
     public LedStrip(Context pi4j, SettingRepository settingRepository) {
-        this.settingRepository = settingRepository;
-
+        var pin = getPin();
         this.pwm = pi4j.create(Pwm.newConfigBuilder(pi4j)
-                .id("PIN" + getPin())
+                .id("PIN" + pin)
                 .name(SettingNames.LED_STRIP)
-                .address(getPin())
+                .address(pin)
                 .pwmType(PwmType.HARDWARE)
                 .initial(0)
                 .shutdown(0)
                 .build());
+
+        this.settingRepository = settingRepository;
     }
 
     public synchronized void turnOn(int brightnessToSet) {
@@ -35,16 +36,19 @@ public class LedStrip {
 
     private void smoothlyChangeBrightness(int to) {
         var from = getBrightness();
+        var frequency = getFrequency();
+        var delay = getDelay();
+
         while (from != to) {
             if (from > to)
                 --from;
             else
                 ++from;
 
-            pwm.on(from, getFrequency());
+            pwm.on(from, frequency);
 
             try {
-                Thread.sleep(getDelay());
+                Thread.sleep(delay);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
