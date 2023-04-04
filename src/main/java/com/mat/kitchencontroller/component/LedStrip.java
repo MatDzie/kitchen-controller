@@ -68,6 +68,6 @@ public class LedStrip {
     }
 
     private int getSettingValue(String postfix) {
-        return Integer.parseInt(settingRepository.findValueForName(SettingNames.LED_STRIP + postfix));
+        return Integer.parseInt(settingRepository.findByName(SettingNames.LED_STRIP + postfix).getValue());
     }
 }

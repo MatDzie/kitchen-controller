@@ -49,14 +49,14 @@ public abstract class LightButton implements DigitalStateChangeListener {
     }
 
     private long getDebounce() {
-        return Long.parseLong(settingRepository.findValueForName(SettingNames.LIGHT_BUTTON + SettingNames.DEBOUNCE_POSTFIX));
+        return Long.parseLong(settingRepository.findByName(SettingNames.LIGHT_BUTTON + SettingNames.DEBOUNCE_POSTFIX).getValue());
     }
     protected int getPin() {
-        return Integer.parseInt(settingRepository.findValueForName(getName() + SettingNames.PIN_POSTFIX));
+        return Integer.parseInt(settingRepository.findByName(getName() + SettingNames.PIN_POSTFIX).getValue());
     }
 
     protected int getBrightness() {
-        return Integer.parseInt(settingRepository.findValueForName(getName() + SettingNames.BRIGHTNESS_POSTFIX));
+        return Integer.parseInt(settingRepository.findByName(getName() + SettingNames.BRIGHTNESS_POSTFIX).getValue());
     }
 
     protected abstract String getName();
