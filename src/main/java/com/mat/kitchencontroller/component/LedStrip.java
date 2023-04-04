@@ -28,6 +28,10 @@ public class LedStrip {
         smoothlyChangeBrightness(brightnessToSet);
     }
 
+    public synchronized void turnOff() {
+        smoothlyChangeBrightness(0);
+    }
+
     private void smoothlyChangeBrightness(int to) {
         var from = getBrightness();
         while (from != to) {
@@ -44,10 +48,6 @@ public class LedStrip {
                 Thread.currentThread().interrupt();
             }
         }
-    }
-
-    public synchronized void turnOff() {
-        smoothlyChangeBrightness(0);
     }
 
     public int getBrightness() {
