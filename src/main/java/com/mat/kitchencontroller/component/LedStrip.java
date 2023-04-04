@@ -13,6 +13,8 @@ public class LedStrip {
     private final SettingRepository settingRepository;
 
     public LedStrip(Context pi4j, SettingRepository settingRepository) {
+        this.settingRepository = settingRepository;
+
         var pin = getPin();
         this.pwm = pi4j.create(Pwm.newConfigBuilder(pi4j)
                 .id("PIN" + pin)
@@ -22,8 +24,6 @@ public class LedStrip {
                 .initial(0)
                 .shutdown(0)
                 .build());
-
-        this.settingRepository = settingRepository;
     }
 
     public synchronized void turnOn(int brightnessToSet) {
