@@ -17,7 +17,7 @@ public class LedStrip {
 
         var pin = getPin();
         this.pwm = pi4j.create(Pwm.newConfigBuilder(pi4j)
-                .id("PIN" + pin)
+                .id("BCM" + pin)
                 .name(SettingNames.LED_STRIP)
                 .address(pin)
                 .pwmType(PwmType.HARDWARE)
