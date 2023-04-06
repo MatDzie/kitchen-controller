@@ -1,18 +1,18 @@
-package com.mat.kitchencontroller.component;
+package com.mat.kitchencontroller.service;
 
 import com.mat.kitchencontroller.configuration.SettingNames;
 import com.mat.kitchencontroller.repositories.SettingRepository;
 import com.pi4j.context.Context;
 import com.pi4j.io.pwm.Pwm;
 import com.pi4j.io.pwm.PwmType;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
-public class LedStrip {
+@Service
+public class LedStripService implements LightSourceService {
     private final Pwm pwm;
     private final SettingRepository settingRepository;
 
-    public LedStrip(Context pi4j, SettingRepository settingRepository) {
+    public LedStripService(Context pi4j, SettingRepository settingRepository) {
         this.settingRepository = settingRepository;
 
         var pin = getPin();
@@ -26,12 +26,19 @@ public class LedStrip {
                 .build());
     }
 
+    @Override
     public synchronized void turnOn(int brightnessToSet) {
         smoothlyChangeBrightness(brightnessToSet);
     }
 
+    @Override
     public synchronized void turnOff() {
         smoothlyChangeBrightness(0);
+    }
+
+    @Override
+    public int getBrightness() {
+        return pwm.isOn() ? Math.round(pwm.getDutyCycle()) : 0;
     }
 
     private void smoothlyChangeBrightness(int to) {
@@ -53,10 +60,6 @@ public class LedStrip {
                 Thread.currentThread().interrupt();
             }
         }
-    }
-
-    public int getBrightness() {
-        return pwm.isOn() ? Math.round(pwm.getDutyCycle()) : 0;
     }
 
     private int getPin() {

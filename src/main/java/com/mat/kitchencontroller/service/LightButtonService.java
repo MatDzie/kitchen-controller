@@ -1,16 +1,16 @@
-package com.mat.kitchencontroller.component;
+package com.mat.kitchencontroller.service;
 
 import com.mat.kitchencontroller.configuration.SettingNames;
 import com.mat.kitchencontroller.repositories.SettingRepository;
 import com.pi4j.context.Context;
 import com.pi4j.io.gpio.digital.*;
 
-public abstract class LightButton implements DigitalStateChangeListener {
-    private final LedStrip ledStrip;
+public abstract class LightButtonService implements DigitalStateChangeListener {
+    private final LightSourceService lightSourceService;
     protected SettingRepository settingRepository;
 
-    protected LightButton(Context pi4j, LedStrip ledStrip, SettingRepository settingRepository) {
-        this.ledStrip = ledStrip;
+    protected LightButtonService(Context pi4j, LightSourceService lightSourceService, SettingRepository settingRepository) {
+        this.lightSourceService = lightSourceService;
         this.settingRepository = settingRepository;
 
         var config = buildConfig(pi4j);
@@ -37,15 +37,15 @@ public abstract class LightButton implements DigitalStateChangeListener {
     public void onDigitalStateChange(DigitalStateChangeEvent event) {
         if (event.state().isHigh()) {
             if (brightnessIsAlreadySet()) {
-                ledStrip.turnOff();
+                lightSourceService.turnOff();
             } else {
-                ledStrip.turnOn(getBrightness());
+                lightSourceService.turnOn(getBrightness());
             }
         }
     }
 
     boolean brightnessIsAlreadySet() {
-        return ledStrip.getBrightness() == getBrightness();
+        return lightSourceService.getBrightness() == getBrightness();
     }
 
     private long getDebounce() {

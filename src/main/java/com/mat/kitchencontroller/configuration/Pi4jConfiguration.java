@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class Pi4jConfiguration {
-
     @Bean
     Context pi4jContext(){
         return Pi4J.newAutoContext();

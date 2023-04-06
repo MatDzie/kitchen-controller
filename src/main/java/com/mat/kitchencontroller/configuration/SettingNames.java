@@ -1,7 +1,6 @@
 package com.mat.kitchencontroller.configuration;
 
 public class SettingNames {
-
     public static final String LED_STRIP = "LED_STRIP";
     public static final String LIGHT_BUTTON = "LIGHT_BUTTON";
     public static final String DIM_LIGHT_BUTTON = "DIM_LIGHT_BUTTON";
