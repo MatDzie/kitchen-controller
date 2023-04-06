@@ -12,7 +12,6 @@ public class Sht30Service implements HumidityService, TemperatureService {
 
     public Sht30Service(Context pi4j) {
         this.sht30 = createSht30I2cInterface(pi4j);
-        printTempAndHumidity();
     }
 
     I2C createSht30I2cInterface(Context pi4j) {
@@ -31,12 +30,6 @@ public class Sht30Service implements HumidityService, TemperatureService {
     public double getCelsiusTemperature() {
         var buffer = performMeasurement();
         return decodeRelativeHumidity(buffer);
-    }
-
-    public void printTempAndHumidity() {
-        var buffer = performMeasurement();
-        System.out.printf("SHT30: Relative Humidity : %.2f %%RH %n", decodeRelativeHumidity(buffer));
-        System.out.printf("SHT30: Temperature in Celsius : %.2f C %n", decodeCelsiusTemperature(buffer));
     }
 
     private byte[] performMeasurement() {
