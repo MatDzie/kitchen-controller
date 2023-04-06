@@ -1,4 +1,4 @@
-package com.mat.kitchencontroller.configuration;
+package com.mat.kitchencontroller.config;
 
 import com.pi4j.Pi4J;
 import com.pi4j.context.Context;

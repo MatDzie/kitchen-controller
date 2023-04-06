@@ -1,4 +1,4 @@
-package com.mat.kitchencontroller.service;
+package com.mat.kitchencontroller.services;
 
 import com.pi4j.context.Context;
 import com.pi4j.io.i2c.I2C;

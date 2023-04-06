@@ -1,6 +1,6 @@
-package com.mat.kitchencontroller.service;
+package com.mat.kitchencontroller.services;
 
-import com.mat.kitchencontroller.configuration.SettingNames;
+import com.mat.kitchencontroller.config.SettingNames;
 import com.mat.kitchencontroller.repositories.SettingRepository;
 import com.pi4j.context.Context;
 import com.pi4j.io.gpio.digital.*;

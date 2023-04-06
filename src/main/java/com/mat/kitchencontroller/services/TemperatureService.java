@@ -1,4 +1,4 @@
-package com.mat.kitchencontroller.service;
+package com.mat.kitchencontroller.services;
 
 public interface TemperatureService {
     double getCelsiusTemperature();

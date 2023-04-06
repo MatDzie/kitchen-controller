@@ -1,4 +1,4 @@
-package com.mat.kitchencontroller.configuration;
+package com.mat.kitchencontroller.config;
 
 public class SettingNames {
     public static final String LED_STRIP = "LED_STRIP";

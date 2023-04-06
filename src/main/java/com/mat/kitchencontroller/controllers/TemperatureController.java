@@ -1,6 +1,6 @@
-package com.mat.kitchencontroller.controller;
+package com.mat.kitchencontroller.controllers;
 
-import com.mat.kitchencontroller.service.TemperatureService;
+import com.mat.kitchencontroller.services.TemperatureService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
