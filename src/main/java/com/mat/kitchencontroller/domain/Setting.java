@@ -23,6 +23,11 @@ public class Setting {
         this.value = value;
     }
 
+    public Setting(String name, String value) {
+        this.name = name;
+        this.value = value;
+    }
+
     public Integer getId() {
         return id;
     }
