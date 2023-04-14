@@ -9,7 +9,7 @@
 ### END INIT INFO
 
 # File location on target: /etc/init.d
-# Add to autostart: sudo update-rc.d /etc/init.d/kitchen-controller defaults
+# Add to autostart: sudo update-rc.d kitchen-controller defaults
 
 case $1 in
     start)
