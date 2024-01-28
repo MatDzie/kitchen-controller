@@ -1,3 +1,5 @@
 # kitchen-controller
 
-RaspberryPi kitchen smart home controller
+RaspberryPi kitchen LED controller with web API.
+
+Base for future smart home controller.
